@@ -1,0 +1,15 @@
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  phone VARCHAR(20) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL,
+  nickname VARCHAR(50) NOT NULL,
+  is_elder TINYINT(1) DEFAULT 1,
+  status TINYINT(1) DEFAULT 1,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  INDEX idx_phone (phone)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO users (phone, password, nickname, is_elder, status) 
+SELECT 'test', '111111', '测试用户', 1, 1 
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE phone = 'test');

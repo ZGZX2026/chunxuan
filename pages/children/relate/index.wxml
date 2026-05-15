@@ -1,0 +1,119 @@
+<view class="relate-container">
+  <view class="relate-header">
+    <text class="header-title">关联老人账户</text>
+    <text class="header-subtitle">守护家人的第一步</text>
+  </view>
+
+  <view class="search-section">
+    <view class="search-input-group">
+      <text class="search-icon">�</text>
+      <input class="search-input" placeholder="搜索老人手机号或姓名" value="{{searchKeyword}}" bindinput="onSearchInput" />
+      <view class="search-btn" bindtap="searchElder">
+        <text>搜索</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="search-results" wx:if="{{showSearchResults && searchResults.length > 0}}">
+    <view class="results-title">
+      <text>搜索结果</text>
+    </view>
+    <view class="results-list">
+      <view class="result-item" wx:for="{{searchResults}}" wx:key="id" bindtap="selectElder" data-elder="{{item}}">
+        <view class="result-avatar">
+          <text>👴</text>
+        </view>
+        <view class="result-info">
+          <text class="result-name">{{item.nickname}}</text>
+          <text class="result-phone">{{item.phone}}</text>
+        </view>
+        <view class="result-action">
+          <text class="action-text">关联</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="linked-section">
+    <view class="section-header">
+      <text class="section-title">👨‍👩‍👧 已关联的老人</text>
+    </view>
+    <view class="linked-list">
+      <block wx:for="{{linkedElders}}" wx:key="id">
+        <view class="linked-item">
+          <view class="elder-info">
+            <view class="elder-avatar">
+              <text class="elder-icon"></text>
+            </view>
+            <view class="elder-detail">
+              <text class="elder-name">{{item.elder_name}}</text>
+              <text class="elder-phone">{{item.elder_phone}}</text>
+            </view>
+          </view>
+          <view class="elder-actions">
+            <view class="action-btn" bindtap="viewElderStats" data-id="{{item.id}}">
+              <text>📊</text>
+            </view>
+            <view class="action-btn danger" bindtap="unlinkElder" data-elder="{{item}}">
+              <text>🗑️</text>
+            </view>
+          </view>
+        </view>
+      </block>
+      <view class="empty-state" wx:if="{{linkedElders.length === 0}}">
+        <text class="empty-icon">🔗</text>
+        <text class="empty-text">暂无关联的老人</text>
+        <text class="empty-hint">上方搜索老人手机号或用户名即可关联</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="tips-section">
+    <view class="tips-header">
+      <text class="tips-icon">💡</text>
+      <text class="tips-title">关联说明</text>
+    </view>
+    <view class="tips-list">
+      <view class="tips-item">
+        <text class="tips-number">1</text>
+        <text class="tips-text">老人需先注册账号</text>
+      </view>
+      <view class="tips-item">
+        <text class="tips-number">2</text>
+        <text class="tips-text">输入老人手机号或姓名进行搜索</text>
+      </view>
+      <view class="tips-item">
+        <text class="tips-number">3</text>
+        <text class="tips-text">确认老人信息后点击关联</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="confirm-modal" wx:if="{{showConfirmModal}}" bindtap="closeConfirmModal">
+    <view class="modal-content" bindtap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">确认关联</text>
+      </view>
+      <view class="modal-body">
+        <view class="elder-info-card">
+          <view class="card-avatar">
+            <text>👴</text>
+          </view>
+          <view class="card-info">
+            <text class="card-name">{{selectedElder.nickname}}</text>
+            <text class="card-phone">{{selectedElder.phone}}</text>
+          </view>
+        </view>
+        <text class="modal-tip">确认要关联这位老人吗？</text>
+      </view>
+      <view class="modal-footer">
+        <view class="modal-btn cancel" bindtap="closeConfirmModal">
+          <text>取消</text>
+        </view>
+        <view class="modal-btn confirm" bindtap="confirmRelate">
+          <text>确认关联</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

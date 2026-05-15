@@ -1,0 +1,191 @@
+<view class="container">
+  <view wx:if="{{!isLoggedIn}}" class="login-prompt">
+    <view class="prompt-content">
+      <view class="prompt-icon">🔒</view>
+      <text class="prompt-title">请先登录</text>
+      <text class="prompt-desc">登录后即可使用完整的安全守护功能</text>
+      <view class="prompt-btn" bindtap="goToLogin">
+        <text>立即登录</text>
+      </view>
+    </view>
+    <view class="prompt-features">
+      <view class="prompt-feature">
+        <text class="feature-icon">❤️</text>
+        <text class="feature-name">AI陪伴</text>
+      </view>
+      <view class="prompt-feature">
+        <text class="feature-icon">🛡️</text>
+        <text class="feature-name">安全守护</text>
+      </view>
+      <view class="prompt-feature">
+        <text class="feature-icon">📊</text>
+        <text class="feature-name">健康监测</text>
+      </view>
+      <view class="prompt-feature">
+        <text class="feature-icon">🆘</text>
+        <text class="feature-name">紧急呼叫</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else>
+    <view class="welcome-section">
+      <view class="avatar">
+        <view class="avatar-inner">
+          <view class="avatar-head"></view>
+          <view class="avatar-body"></view>
+        </view>
+      </view>
+      <text class="greeting">您好，{{userInfo.nickname || '用户'}}</text>
+      <text class="time-text">{{currentTime}}</text>
+      <view class="logout-btn" bindtap="logout">
+        <text>退出登录</text>
+      </view>
+    </view>
+
+    <view class="medicine-reminder-large" wx:if="{{medicineReminder}}">
+      <view class="reminder-content-large">
+        <view class="reminder-icon-wrapper-large" bindtap="speakReminder" data-type="medicine">
+          <text class="reminder-icon-large">💊</text>
+          <text class="speak-icon">🔊</text>
+        </view>
+        <view class="reminder-info-large">
+          <text class="reminder-title-large">用药提醒</text>
+          <text class="reminder-text-large">该吃降压药了，每天2次，每次1片</text>
+        </view>
+        <view class="reminder-btn-large" bindtap="confirmMedicine">
+          <text>知道了</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="ai-reminder" wx:if="{{aiReminder.show}}">
+      <view class="ai-reminder-content">
+        <view class="ai-reminder-icon-wrapper" bindtap="speakReminder" data-type="ai">
+          <text class="ai-reminder-icon">🤖</text>
+          <text class="speak-icon">🔊</text>
+        </view>
+        <view class="ai-reminder-info">
+          <text class="ai-reminder-title">{{aiReminder.title}}</text>
+          <text class="ai-reminder-text">{{aiReminder.text}}</text>
+        </view>
+        <view class="ai-reminder-btn" bindtap="acknowledgeReminder">
+          <text>知道了</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="health-card">
+      <view class="health-header">
+        <text class="health-title">📊 设备监测</text>
+        <view class="health-status" wx:if="{{healthMonitoring}}">
+          <text class="health-dot active"></text>
+          <text class="health-text">监测中</text>
+        </view>
+      </view>
+      <view class="health-data-large">
+        <view class="health-item-large">
+          <view class="health-icon-large">🔋</view>
+          <view class="health-info-large">
+            <text class="health-value-large">{{deviceInfo.batteryLevel}}</text>
+            <text class="health-label-large">电量 - {{deviceInfo.batteryStatus}}</text>
+          </view>
+        </view>
+        <view class="health-item-large">
+          <view class="health-icon-large">📶</view>
+          <view class="health-info-large">
+            <text class="health-value-large">{{deviceInfo.networkType}}</text>
+            <text class="health-label-large">网络状态</text>
+          </view>
+        </view>
+        <view class="health-item-large">
+          <view class="health-icon-large">💡</view>
+          <view class="health-info-large">
+            <text class="health-value-large">{{deviceInfo.screenBrightness}}</text>
+            <text class="health-label-large">屏幕亮度</text>
+          </view>
+        </view>
+        <view class="health-item-large">
+          <view class="health-icon-large">📱</view>
+          <view class="health-info-large">
+            <text class="health-value-large">{{deviceInfo.deviceModel}}</text>
+            <text class="health-label-large">设备型号</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="status-card-large">
+      <view class="status-header-large">
+        <text class="status-title-large">🛡️ 守护状态</text>
+        <view class="status-indicator-large {{guardianStatus ? 'active' : 'inactive'}}">
+          <text class="indicator-dot-large"></text>
+          <text class="indicator-text-large">{{guardianStatus ? '守护中' : '未开启'}}</text>
+        </view>
+      </view>
+      <view class="status-info-large">
+        <view class="info-item-large">
+          <text class="info-value-large">{{guardianData.duration || '24小时'}}</text>
+          <text class="info-label-large">连续守护</text>
+        </view>
+        <view class="info-item-large">
+          <text class="info-value-large">{{guardianData.alerts || '0次'}}</text>
+          <text class="info-label-large">今日预警</text>
+        </view>
+        <view class="info-item-large">
+          <text class="info-value-large">{{guardianData.accpanies || '3次'}}</text>
+          <text class="info-label-large">今日陪伴</text>
+        </view>
+      </view>
+      <view class="status-btn-large" bindtap="openGuardian">
+        <text>{{guardianStatus ? '关闭守护' : '开启守护'}}</text>
+      </view>
+    </view>
+
+    <view class="emergency-section-large">
+      <view class="emergency-btn-large" bindtap="handleEmergency">
+        <text class="emergency-icon-large">🆘</text>
+        <text class="emergency-text-large">紧急呼叫</text>
+      </view>
+      <text class="emergency-tip-large">点击或说"救命"触发紧急呼叫</text>
+    </view>
+
+    <view class="quick-actions-large">
+      <view class="action-list-large">
+        <view class="action-item-full" bindtap="callSon">
+          <view class="action-icon-large">📞</view>
+          <text class="action-text-large">打电话给儿子</text>
+        </view>
+        <view class="action-item-full" bindtap="callDaughter">
+          <view class="action-icon-large">📱</view>
+          <text class="action-text-large">打电话给女儿</text>
+        </view>
+        <view class="action-item-full" bindtap="openChat">
+          <view class="action-icon-large">💬</view>
+          <text class="action-text-large">和小银聊天</text>
+        </view>
+        <view class="action-item-full" bindtap="voiceControl">
+          <view class="action-icon-large">🎤</view>
+          <text class="action-text-large">语音控制</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="elder-bottom-nav">
+      <view class="elder-nav-item active">
+        <text class="elder-nav-icon">🏠</text>
+        <text class="elder-nav-text">守护首页</text>
+      </view>
+      <view class="elder-nav-item" bindtap="openChat">
+        <text class="elder-nav-icon">💬</text>
+        <text class="elder-nav-text">AI聊天</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-info">
+    <text class="footer-copyright">LLS逐光智序工作室--椿萱语音安全守护</text>
+    <text class="footer-disclaimer">本站所有功能适用于测试和体验目的</text>
+    <text class="footer-icp">渝ICP备2026009243号-1</text>
+  </view>
+</view>

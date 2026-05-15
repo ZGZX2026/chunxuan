@@ -1,0 +1,91 @@
+<view class="chat-container">
+  <view class="chat-header">
+    <text class="header-title">小银陪伴</text>
+    <text class="header-subtitle">智能AI助手</text>
+    <view class="back-btn" bindtap="goBack">
+      <text>← 返回</text>
+    </view>
+  </view>
+
+  <view wx:if="{{!isLoggedIn}}" class="login-prompt">
+    <view class="prompt-content">
+      <view class="prompt-icon">🔒</view>
+      <text class="prompt-title">请先登录</text>
+      <text class="prompt-desc">登录后即可与小银聊天</text>
+      <view class="prompt-btn" bindtap="goToLogin">
+        <text>立即登录</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="chat-content">
+    <view wx:if="{{messageList.length === 0}}" class="welcome-section">
+      <text class="welcome-title">有什么我能帮你的吗？</text>
+      <view class="quick-tags">
+        <view class="tag" bindtap="sendQuickTag" data-tag="今天天气怎么样">天气</view>
+        <view class="tag" bindtap="sendQuickTag" data-tag="给我讲个笑话">笑话</view>
+        <view class="tag" bindtap="sendQuickTag" data-tag="讲个故事">故事</view>
+        <view class="tag" bindtap="sendQuickTag" data-tag="今天新闻">新闻</view>
+      </view>
+    </view>
+
+    <scroll-view 
+      wx:if="{{messageList.length > 0}}" 
+      class="chat-messages" 
+      scroll-y 
+      scroll-with-animation 
+      enhanced 
+      show-scrollbar="false"
+      scroll-anchoring="true"
+      scroll-into-view="{{scrollToBottom ? 'bottomAnchor' : ''}}"
+      scroll-top="{{scrollTopValue}}">
+      <view class="message-list">
+        <block wx:for="{{messageList}}" wx:key="id">
+          <view class="user-message">
+            <view class="message-bubble user-bubble">
+              <text class="message-text">{{item.content}}</text>
+            </view>
+          </view>
+          <view class="bot-message" wx:if="{{item.botContent}}">
+            <view class="message-bubble bot-bubble">
+              <text class="message-text">{{item.displayContent || item.botContent}}</text>
+            </view>
+            <view class="message-actions">
+              <view class="action-btn" bindtap="speakMessage" data-content="{{item.botContent}}" data-id="{{item.id}}">
+                <text class="action-icon">{{currentSpeakingId === item.id ? '⏹️' : '🔊'}}</text>
+                <text class="action-text">朗读</text>
+              </view>
+              <view class="action-btn" bindtap="copyMessage" data-content="{{item.botContent}}">
+                <text class="action-icon">📋</text>
+                <text class="action-text">复制</text>
+              </view>
+            </view>
+          </view>
+        </block>
+        <view id="bottomAnchor" class="bottom-anchor"></view>
+      </view>
+    </scroll-view>
+
+    <view class="footer-info">
+      <text class="footer-copyright">LLS逐光智序工作室--椿萱语音安全守护</text>
+      <text class="footer-disclaimer">本站所有功能适用于测试和体验目的</text>
+      <text class="footer-icp">渝ICP备2026009243号-1</text>
+    </view>
+
+    <view class="bottom-bar">
+      <view class="voice-section">
+        <view class="voice-btn" bindtap="toggleVoice" style="background: {{isListening ? '#E53935' : '#2E7D32'}}">
+          <text class="voice-icon">{{isListening ? '🔴' : '🎤'}}</text>
+          <text class="voice-text">{{isListening ? '正在听...' : '按住说话'}}</text>
+        </view>
+      </view>
+      
+      <view class="input-section">
+        <input class="chat-input" placeholder="请输入您的问题..." value="{{inputText}}" bindinput="onInput" confirm-type="send" bindconfirm="sendText" adjust-position="false" />
+        <view class="send-btn" bindtap="sendText">
+          <text>发送</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

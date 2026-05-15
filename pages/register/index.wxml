@@ -1,0 +1,94 @@
+<view class="register-container">
+  <view class="register-header">
+    <view class="back-btn" bindtap="goToLogin">
+      <text>←</text>
+    </view>
+    <text class="register-title">用户注册</text>
+    <view class="placeholder"></view>
+  </view>
+
+  <view class="user-type-section">
+    <view class="user-type-tabs">
+      <view class="user-type-tab {{isElder ? 'active' : ''}}" bindtap="toggleRole" data-type="elder">
+        <text class="tab-icon">👴</text>
+        <text class="tab-text">我是老人</text>
+      </view>
+      <view class="user-type-tab {{!isElder ? 'active' : ''}}" bindtap="toggleRole" data-type="children">
+        <text class="tab-icon">👨</text>
+        <text class="tab-text">我是子女</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="register-form">
+    <view class="form-item">
+      <view class="input-wrapper">
+        <text class="input-icon">📱</text>
+        <input 
+          class="input-field" 
+          placeholder="请输入手机号" 
+          type="number" 
+          maxlength="11"
+          value="{{phone}}"
+          bindinput="onPhoneInput"
+        />
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="input-wrapper">
+        <text class="input-icon">👤</text>
+        <input 
+          class="input-field" 
+          placeholder="请输入昵称" 
+          value="{{nickname}}"
+          bindinput="onNicknameInput"
+        />
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="input-wrapper">
+        <text class="input-icon">🔒</text>
+        <input 
+          class="input-field" 
+          placeholder="请输入密码（至少6位）" 
+          type="password" 
+          value="{{password}}"
+          bindinput="onPasswordInput"
+        />
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="input-wrapper">
+        <text class="input-icon">🔑</text>
+        <input 
+          class="input-field" 
+          placeholder="请确认密码" 
+          type="password" 
+          value="{{confirmPassword}}"
+          bindinput="onConfirmPasswordInput"
+        />
+      </view>
+    </view>
+
+    <view class="agree-section">
+      <view class="agree-checkbox" bindtap="toggleAgree">
+        <view class="checkbox {{agreeTerms ? 'checked' : ''}}">
+          <text wx:if="{{agreeTerms}}">✓</text>
+        </view>
+        <text class="agree-text">我已阅读并同意</text>
+        <text class="agree-link" bindtap="openTerms">《服务条款》</text>
+      </view>
+    </view>
+
+    <view class="register-btn" bindtap="register">
+      <text>注册</text>
+    </view>
+
+    <view class="login-link" bindtap="goToLogin">
+      <text>已有账号？立即登录</text>
+    </view>
+  </view>
+</view>

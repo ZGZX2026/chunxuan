@@ -1,0 +1,108 @@
+<view class="messages-container">
+  <view class="messages-header">
+    <text class="page-title">🔔 消息通知</text>
+    <view class="header-actions">
+      <text class="mark-all-read" bindtap="markAllRead">全部已读</text>
+      <view class="send-btn" bindtap="sendMessage">
+        <text>📤 发送消息</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="message-tabs">
+    <view class="tab-item {{activeTab === 'all' ? 'active' : ''}}" bindtap="setTab" data-tab="all">
+      <text>全部</text>
+      <view class="tab-badge" wx:if="{{allCount > 0}}">{{allCount > 99 ? '99+' : allCount}}</view>
+    </view>
+    <view class="tab-item {{activeTab === 'elder' ? 'active' : ''}}" bindtap="setTab" data-tab="elder">
+      <text>老人消息</text>
+      <view class="tab-badge" wx:if="{{elderCount > 0}}">{{elderCount}}</view>
+    </view>
+    <view class="tab-item {{activeTab === 'ai' ? 'active' : ''}}" bindtap="setTab" data-tab="ai">
+      <text>AI提醒</text>
+      <view class="tab-badge" wx:if="{{aiCount > 0}}">{{aiCount}}</view>
+    </view>
+  </view>
+
+  <scroll-view class="messages-list" scroll-y>
+    <block wx:for="{{filteredMessages}}" wx:key="id">
+      <view class="message-item {{item.is_read ? '' : 'unread'}}" bindtap="viewMessage" data-id="{{item.id}}">
+        <view class="message-avatar">
+          <text class="avatar-icon">{{item.sender_type === 'elder' ? '👴' : '🤖'}}</text>
+          <view class="message-dot" wx:if="{{!item.is_read}}"></view>
+        </view>
+        <view class="message-content">
+          <view class="message-header">
+            <text class="message-sender">{{item.sender_name || item.senderType === 'elder' ? '老人' : 'AI助手'}}</text>
+            <text class="message-time">{{formatTime(item.created_at)}}</text>
+          </view>
+          <text class="message-preview">{{item.content}}</text>
+          <view class="message-tags" wx:if="{{item.message_type === 'confirm'}}">
+            <text class="tag confirm-tag">✓ 已确认</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view class="empty-state" wx:if="{{filteredMessages.length === 0}}">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">暂无消息</text>
+      <text class="empty-hint">有新消息时会在这里显示</text>
+    </view>
+  </scroll-view>
+
+  <view class="ai-analysis-section" wx:if="{{aiAnalysis.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">🤖 AI分析报告</text>
+    </view>
+    <view class="ai-analysis-list">
+      <view class="ai-analysis-item" wx:for="{{aiAnalysis}}" wx:key="id">
+        <view class="analysis-header">
+          <text class="analysis-name">{{getElderName(item.elder_user_id)}}</text>
+          <text class="analysis-time">{{formatTime(item.created_at)}}</text>
+        </view>
+        <view class="analysis-content">
+          <text>{{item.analysis_content}}</text>
+        </view>
+        <view class="analysis-meta">
+          <view class="health-score">健康评分: {{item.health_score || 'N/A'}}</view>
+          <view class="analysis-level {{item.analysis_level}}">{{item.analysis_level || 'normal'}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-info">
+    <text class="footer-copyright">LLS逐光智序工作室--椿萱语音安全守护</text>
+    <text class="footer-disclaimer">本站所有功能适用于测试和体验目的</text>
+    <text class="footer-icp">渝ICP备2026009243号-1</text>
+  </view>
+
+  <view class="message-detail-modal" wx:if="{{showDetail && selectedMessage}}" bindtap="closeDetail">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-header">
+        <text class="modal-title">{{selectedMessage.sender_name || (selectedMessage.sender_type === 'elder' ? '老人' : 'AI助手')}}</text>
+        <view class="close-btn" bindtap="closeDetail">
+          <text>✕</text>
+        </view>
+      </view>
+      <view class="modal-body">
+        <view class="detail-time">{{formatTime(selectedMessage.created_at)}}</view>
+        <view class="detail-content">
+          <text>{{selectedMessage.content}}</text>
+        </view>
+        <view class="detail-type" wx:if="{{selectedMessage.message_type === 'confirm'}}">
+          <text class="confirm-badge">✓ 老人已确认收到</text>
+        </view>
+      </view>
+      <view class="modal-footer">
+        <view class="footer-btn primary" bindtap="handleMessage">
+          <text>回复</text>
+        </view>
+        <view class="footer-btn" bindtap="closeDetail">
+          <text>关闭</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

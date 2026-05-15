@@ -1,0 +1,164 @@
+<view class="home-container">
+  <view class="home-header">
+    <view class="user-info">
+      <view class="avatar">
+        <text class="avatar-icon">{{userInfo.avatar || '👨'}}</text>
+      </view>
+      <view class="user-detail">
+        <text class="user-name">{{userInfo.nickname || '孝顺子女'}}</text>
+        <text class="user-subtitle">守护家人健康</text>
+      </view>
+    </view>
+    <view class="header-actions">
+      <view class="action-icon" bindtap="goToRelate">
+        <text>🔗</text>
+      </view>
+      <view class="action-icon" bindtap="showSettings">
+        <text>⚙️</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="linked-elders-section">
+    <view class="section-header">
+      <text class="section-title">👨‍👩‍👧 守护的老人</text>
+      <text class="section-more" bindtap="goToRelate">管理 ></text>
+    </view>
+    <scroll-view class="elders-scroll" scroll-x>
+      <view class="elders-list">
+        <block wx:for="{{linkedElders}}" wx:key="id">
+          <view class="elder-card {{item.id === selectedElderId ? 'active' : ''}}" bindtap="selectElder" data-id="{{item.id}}">
+            <view class="elder-avatar">
+              <text class="elder-icon">{{item.gender === 'female' ? '👩' : '👴'}}</text>
+              <view class="online-badge" wx:if="{{item.online}}"></view>
+            </view>
+            <text class="elder-name">{{item.name}}</text>
+            <text class="elder-status">{{item.status || '在线'}}</text>
+          </view>
+        </block>
+        <view class="add-elder-card" bindtap="goToRelate">
+          <text class="add-icon">➕</text>
+          <text class="add-text">添加老人</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="ai-analysis-section" wx:if="{{aiAnalysis.show}}">
+    <view class="analysis-card {{aiAnalysis.level}}">
+      <view class="analysis-header">
+        <text class="analysis-icon">🤖</text>
+        <view class="analysis-info">
+          <text class="analysis-title">小银健康分析</text>
+          <text class="analysis-time">{{aiAnalysis.time}}</text>
+        </view>
+        <view class="analysis-level {{aiAnalysis.level}}">
+          <text>{{aiAnalysis.levelText}}</text>
+        </view>
+      </view>
+      <view class="analysis-content">
+        <text class="analysis-text">{{aiAnalysis.content}}</text>
+      </view>
+      <view class="analysis-actions">
+        <view class="analysis-btn" bindtap="viewDetail" data-id="{{aiAnalysis.id}}">
+          <text>查看详情</text>
+        </view>
+        <view class="analysis-btn secondary" bindtap="dismissAnalysis">
+          <text>知道了</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-overview">
+    <view class="stats-header">
+      <text class="stats-title">📊 今日数据概览</text>
+      <text class="stats-date">{{todayDate}}</text>
+    </view>
+    <view class="stats-grid">
+      <view class="stat-card">
+        <view class="stat-icon">💬</view>
+        <text class="stat-value">{{elderStats.aiUsageCount || 0}}</text>
+        <text class="stat-label">AI对话次数</text>
+        <view class="stat-trend up">
+          <text>↑ 2</text>
+        </view>
+      </view>
+      <view class="stat-card">
+        <view class="stat-icon">📱</view>
+        <text class="stat-value">{{elderStats.appOpenCount || 0}}</text>
+        <text class="stat-label">打开小程序</text>
+        <view class="stat-trend {{elderStats.appOpenTrend >= 0 ? 'up' : 'down'}}">
+          <text>{{elderStats.appOpenTrend >= 0 ? '↑' : '↓'}} {{Math.abs(elderStats.appOpenTrend || 0)}}</text>
+        </view>
+      </view>
+      <view class="stat-card {{elderStats.emergencyCount > 0 ? 'warning' : ''}}">
+        <view class="stat-icon">🆘</view>
+        <text class="stat-value">{{elderStats.emergencyCount || 0}}</text>
+        <text class="stat-label">紧急呼叫</text>
+        <view class="stat-trend {{elderStats.emergencyCount > 0 ? 'warning' : 'down'}}">
+          <text>{{elderStats.emergencyCount > 0 ? '⚠️' : '✓'}}</text>
+        </view>
+      </view>
+      <view class="stat-card">
+        <view class="stat-icon">❤️</view>
+        <text class="stat-value">{{elderStats.healthScore || 85}}</text>
+        <text class="stat-label">健康评分</text>
+        <view class="stat-trend {{elderStats.healthTrend >= 0 ? 'up' : 'down'}}">
+          <text>{{elderStats.healthTrend >= 0 ? '↑' : '↓'}} {{Math.abs(elderStats.healthTrend || 0)}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="timeline-section">
+    <view class="section-header">
+      <text class="section-title">📅 今日动态</text>
+      <text class="section-more" bindtap="viewAllTimeline">查看全部 ></text>
+    </view>
+    <view class="timeline-list">
+      <block wx:for="{{todayTimeline}}" wx:key="id">
+        <view class="timeline-item">
+          <view class="timeline-dot {{item.type}}"></view>
+          <view class="timeline-content">
+            <view class="timeline-header">
+              <text class="timeline-time">{{item.time}}</text>
+              <text class="timeline-type">{{item.typeText}}</text>
+            </view>
+            <text class="timeline-text">{{item.content}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <view class="quick-actions-section">
+    <view class="section-header">
+      <text class="section-title">⚡ 快捷操作</text>
+    </view>
+    <view class="quick-actions-grid">
+      <view class="quick-action-item" bindtap="sendMessage">
+        <view class="quick-action-icon">💬</view>
+        <text class="quick-action-text">发送消息</text>
+      </view>
+      <view class="quick-action-item" bindtap="makeCall">
+        <view class="quick-action-icon">📞</view>
+        <text class="quick-action-text">拨打电话</text>
+      </view>
+      <view class="quick-action-item" bindtap="viewHealth">
+        <view class="quick-action-icon">📊</view>
+        <text class="quick-action-text">健康报告</text>
+      </view>
+      <view class="quick-action-item" bindtap="setReminder">
+        <view class="quick-action-icon">⏰</view>
+        <text class="quick-action-text">设置提醒</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-info">
+    <text class="footer-copyright">LLS逐光智序工作室--椿萱语音安全守护</text>
+    <text class="footer-disclaimer">本站所有功能适用于测试和体验目的</text>
+    <text class="footer-icp">渝ICP备2026009243号-1</text>
+  </view>
+</view>

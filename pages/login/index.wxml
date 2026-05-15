@@ -1,0 +1,113 @@
+<view class="login-container">
+  <view class="login-header">
+    <view class="logo-section">
+      <view class="logo-icon">❤️</view>
+      <text class="app-title">椿萱语音安全守护</text>
+      <text class="app-subtitle">用心守护 温暖陪伴</text>
+    </view>
+  </view>
+
+  <view class="user-type-section">
+    <view class="user-type-tabs">
+      <view class="user-type-tab {{userType === 'elder' ? 'active' : ''}}" bindtap="switchUserType" data-type="elder">
+        <text class="tab-icon">👴</text>
+        <text class="tab-text">我是老人</text>
+      </view>
+      <view class="user-type-tab {{userType === 'children' ? 'active' : ''}}" bindtap="switchUserType" data-type="children">
+        <text class="tab-icon">👨</text>
+        <text class="tab-text">我是子女</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="login-form">
+    <view class="login-tabs">
+      <view class="tab-item {{loginType === 'sms' ? 'active' : ''}}" bindtap="switchLoginType" data-type="sms">
+        <text>验证码登录</text>
+      </view>
+      <view class="tab-item {{loginType === 'password' ? 'active' : ''}}" bindtap="switchLoginType" data-type="password">
+        <text>账号密码登录</text>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="input-wrapper">
+        <text class="input-icon">{{loginType === 'sms' ? '📱' : '👤'}}</text>
+        <input 
+          class="input-field" 
+          placeholder="{{loginType === 'sms' ? '请输入手机号' : '请输入账号'}}" 
+          type="{{loginType === 'sms' ? 'number' : 'text'}}" 
+          maxlength="{{loginType === 'sms' ? '11' : '50'}}"
+          value="{{account}}"
+          bindinput="onAccountInput"
+        />
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="input-wrapper">
+        <text class="input-icon">🔑</text>
+        <input 
+          class="input-field" 
+          placeholder="{{loginType === 'sms' ? '请输入验证码' : '请输入密码'}}" 
+          type="{{loginType === 'sms' ? 'number' : 'password'}}" 
+          maxlength="{{loginType === 'sms' ? '6' : '20'}}"
+          value="{{password}}"
+          bindinput="onPasswordInput"
+        />
+        <view class="verify-btn" wx:if="{{loginType === 'sms'}}" bindtap="sendVerifyCode">
+          <text>{{isSending ? countdown + 's' : '获取验证码'}}</text>
+        </view>
+        <view class="forgot-btn" wx:if="{{loginType === 'password'}}" bindtap="forgotPassword">
+          <text>忘记密码</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="agree-section">
+      <view class="agree-checkbox" bindtap="toggleAgree">
+        <view class="checkbox {{agreeTerms ? 'checked' : ''}}">
+          <text wx:if="{{agreeTerms}}">✓</text>
+        </view>
+        <text class="agree-text">我已阅读并同意</text>
+        <text class="agree-link" bindtap="openTerms">《服务条款》</text>
+      </view>
+    </view>
+
+    <view class="login-btn" bindtap="handleLogin">
+      <text>{{loginType === 'sms' ? '验证码登录' : '账号密码登录'}}</text>
+    </view>
+
+    <view class="quick-btn" wx:if="{{userType === 'elder'}}" bindtap="quickLogin">
+      <text>快速体验（免登录）</text>
+    </view>
+  </view>
+
+  <view class="login-footer">
+    <text class="footer-text">还没有账号？</text>
+    <text class="footer-link" bindtap="navigateToRegister">立即注册</text>
+  </view>
+
+  <view class="feature-list">
+    <view class="feature-item">
+      <text class="feature-icon">❤️</text>
+      <text class="feature-text">AI智能陪伴</text>
+    </view>
+    <view class="feature-item">
+      <text class="feature-icon">🛡️</text>
+      <text class="feature-text">安全守护</text>
+    </view>
+    <view class="feature-item">
+      <text class="feature-icon">📊</text>
+      <text class="feature-text">健康监测</text>
+    </view>
+  </view>
+
+  <view class="test-btn" bindtap="testDBConnection">
+    <text>📦 测试数据库连接</text>
+  </view>
+
+  <view class="test-user-btn" bindtap="testWithUser">
+    <text>👤 测试账号登录</text>
+  </view>
+</view>

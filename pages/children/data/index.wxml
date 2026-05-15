@@ -1,0 +1,123 @@
+<view class="data-container">
+  <view class="data-header">
+    <text class="page-title">📊 数据统计</text>
+    <view class="date-selector">
+      <text class="date-btn {{timeRange === 'week' ? 'active' : ''}}" bindtap="setTimeRange" data-range="week">本周</text>
+      <text class="date-btn {{timeRange === 'month' ? 'active' : ''}}" bindtap="setTimeRange" data-range="month">本月</text>
+      <text class="date-btn {{timeRange === 'year' ? 'active' : ''}}" bindtap="setTimeRange" data-range="year">本年</text>
+    </view>
+  </view>
+
+  <view class="loading-mask" wx:if="{{isLoading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="linked-elders-section" wx:if="{{linkedElders.length > 0}}">
+    <view class="section-header">
+      <text class="section-title">👴 已关联的老人</text>
+    </view>
+    <view class="elder-list">
+      <view class="elder-card" wx:for="{{linkedElders}}" wx:key="id">
+        <view class="elder-avatar">
+          <text class="avatar-icon">👴</text>
+        </view>
+        <view class="elder-info">
+          <text class="elder-name">{{item.elder_name || '未命名'}}</text>
+          <text class="elder-phone">{{item.elder_phone}}</text>
+          <view class="elder-stats">
+            <view class="elder-stat-item">
+              <text class="stat-icon">🤖</text>
+              <text class="stat-num">{{item.ai_usage_count || 0}}</text>
+              <text class="stat-name">AI</text>
+            </view>
+            <view class="elder-stat-item">
+              <text class="stat-icon">📱</text>
+              <text class="stat-num">{{item.app_open_count || 0}}</text>
+              <text class="stat-name">打开</text>
+            </view>
+            <view class="elder-stat-item">
+              <text class="stat-icon">🆘</text>
+              <text class="stat-num">{{item.emergency_count || 0}}</text>
+              <text class="stat-name">预警</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{linkedElders.length === 0 && !isLoading}}">
+    <text class="empty-icon">📱</text>
+    <text class="empty-text">暂未关联老人</text>
+    <text class="empty-hint">请先在"关联"页面添加关联</text>
+  </view>
+
+  <view class="stats-overview">
+    <view class="stat-card">
+      <text class="stat-value">{{totalAIUsage}}</text>
+      <text class="stat-label">AI使用次数</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-value">{{totalAppOpen}}</text>
+      <text class="stat-label">打开次数</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-value">{{totalEmergency}}</text>
+      <text class="stat-label">紧急呼叫</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-value">{{avgHealthScore}}</text>
+      <text class="stat-label">平均健康分</text>
+    </view>
+  </view>
+
+  <view class="chart-section">
+    <view class="section-header">
+      <text class="section-title">📈 使用趋势</text>
+    </view>
+    <view class="line-chart-card">
+      <canvas canvas-id="lineChart" class="line-chart"></canvas>
+      <view class="chart-legend">
+        <view class="legend-item">
+          <view class="legend-dot ai"></view>
+          <text>AI使用</text>
+        </view>
+        <view class="legend-item">
+          <view class="legend-dot app"></view>
+          <text>打开次数</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="chart-section">
+    <view class="section-header">
+      <text class="section-title">📊 每日分布</text>
+    </view>
+    <view class="bar-chart-card">
+      <canvas canvas-id="barChart" class="bar-chart"></canvas>
+      <view class="bar-labels">
+        <text wx:for="{{weekDays}}" wx:key="index" class="bar-label">{{item}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="chart-section">
+    <view class="section-header">
+      <text class="section-title">❤️ 健康评分趋势</text>
+    </view>
+    <view class="health-chart-card">
+      <canvas canvas-id="healthChart" class="health-chart"></canvas>
+      <view class="health-range">
+        <text class="range-start">周一</text>
+        <text class="range-end">周日</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer-info">
+    <text class="footer-copyright">LLS逐光智序工作室--椿萱语音安全守护</text>
+    <text class="footer-disclaimer">本站所有功能适用于测试和体验目的</text>
+    <text class="footer-icp">渝ICP备2026009243号-1</text>
+  </view>
+</view>

@@ -1,0 +1,49 @@
+<view class="send-message-container">
+  <view class="header-section">
+    <view class="elder-info">
+      <text class="elder-name">发送给：{{elderName}}</text>
+    </view>
+  </view>
+
+  <view class="message-input-section">
+    <textarea 
+      class="message-input" 
+      placeholder="请输入要发送的消息..."
+      value="{{messageContent}}"
+      bindinput="onInput"
+      maxlength="500"
+    ></textarea>
+    <view class="char-count">{{messageContent.length}}/500</view>
+  </view>
+
+  <view class="quick-messages">
+    <text class="quick-title">快捷消息：</text>
+    <view class="quick-list">
+      <text 
+        class="quick-item" 
+        wx:for="{{quickMessages}}" 
+        wx:key="index"
+        bindtap="selectQuickMessage"
+        data-message="{{item}}"
+      >{{item}}</text>
+    </view>
+  </view>
+
+  <view class="action-section">
+    <button class="send-btn" bindtap="sendMessage">发送消息</button>
+  </view>
+
+  <view class="history-section" wx:if="{{historyMessages.length > 0}}">
+    <view class="section-title">
+      <text>最近消息</text>
+    </view>
+    <view class="history-list">
+      <view class="history-item" wx:for="{{historyMessages}}" wx:key="id">
+        <view class="history-content">
+          <text>{{item.content}}</text>
+          <text class="history-time">{{item.created_at}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

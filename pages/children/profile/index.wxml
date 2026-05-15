@@ -1,0 +1,109 @@
+<view class="profile-container">
+  <view class="profile-header">
+    <view class="user-card">
+      <view class="user-avatar">
+        <text class="avatar-icon">👨</text>
+      </view>
+      <view class="user-info">
+        <text class="user-name">{{userInfo && userInfo.nickname ? userInfo.nickname : '用户'}}</text>
+        <text class="user-phone">{{userInfo && userInfo.phone ? userInfo.phone : ''}}</text>
+      </view>
+      <view class="edit-btn" bindtap="editProfile">
+        <text>✎</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="stats-row">
+    <view class="stat-item">
+      <text class="stat-value">{{linkedCount}}</text>
+      <text class="stat-label">关联老人</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{messageCount}}</text>
+      <text class="stat-label">未读消息</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-value">{{careDays}}</text>
+      <text class="stat-label">守护天数</text>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="section-title">🎯 快捷操作</view>
+    <view class="menu-grid">
+      <view class="menu-item" bindtap="goToRelate">
+        <view class="menu-icon">🔗</view>
+        <text class="menu-text">关联老人</text>
+      </view>
+      <view class="menu-item" bindtap="goToChat">
+        <view class="menu-icon">💬</view>
+        <text class="menu-text">联系老人</text>
+      </view>
+      <view class="menu-item" bindtap="goToEmergency">
+        <view class="menu-icon">🆘</view>
+        <text class="menu-text">紧急联系</text>
+      </view>
+      <view class="menu-item" bindtap="goToReport">
+        <view class="menu-icon">📊</view>
+        <text class="menu-text">健康报告</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="section-title">⚙️ 设置</view>
+    <view class="menu-list">
+      <view class="menu-row" bindtap="goToNotification">
+        <view class="menu-left">
+          <text class="menu-icon-sm">🔔</text>
+          <text class="menu-label">消息通知</text>
+        </view>
+        <view class="menu-right">
+          <text class="menu-arrow">›</text>
+        </view>
+      </view>
+      <view class="menu-row" bindtap="goToPrivacy">
+        <view class="menu-left">
+          <text class="menu-icon-sm">🔒</text>
+          <text class="menu-label">隐私设置</text>
+        </view>
+        <view class="menu-right">
+          <text class="menu-arrow">›</text>
+        </view>
+      </view>
+      <view class="menu-row" bindtap="goToAbout">
+        <view class="menu-left">
+          <text class="menu-icon-sm">ℹ️</text>
+          <text class="menu-label">关于我们</text>
+        </view>
+        <view class="menu-right">
+          <text class="menu-arrow">›</text>
+        </view>
+      </view>
+      <view class="menu-row" bindtap="goToFeedback">
+        <view class="menu-left">
+          <text class="menu-icon-sm">💡</text>
+          <text class="menu-label">意见反馈</text>
+        </view>
+        <view class="menu-right">
+          <text class="menu-arrow">›</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="menu-section">
+    <view class="logout-btn" bindtap="handleLogout">
+      <text>退出登录</text>
+    </view>
+  </view>
+
+  <view class="footer-info">
+    <text class="footer-copyright">LLS逐光智序工作室--椿萱语音安全守护</text>
+    <text class="footer-disclaimer">本站所有功能适用于测试和体验目的</text>
+    <text class="footer-icp">渝ICP备2026009243号-1</text>
+  </view>
+</view>

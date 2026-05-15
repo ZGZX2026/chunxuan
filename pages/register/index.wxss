@@ -1,0 +1,207 @@
+.register-container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #E8F5E9 0%, #ffffff 50%);
+  padding-bottom: 40rpx;
+}
+
+.register-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60rpx 32rpx 32rpx;
+}
+
+.back-btn {
+  width: 72rpx;
+  height: 72rpx;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  color: #333333;
+}
+
+.register-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333333;
+}
+
+.placeholder {
+  width: 72rpx;
+}
+
+.user-type-section {
+  margin: 0 32rpx 24rpx;
+}
+
+.user-type-tabs {
+  display: flex;
+  gap: 20rpx;
+}
+
+.user-type-tab {
+  flex: 1;
+  background: #ffffff;
+  border: 4rpx solid #E0E0E0;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  transition: all 0.3s ease;
+}
+
+.user-type-tab.active {
+  background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+  border-color: #4CAF50;
+  box-shadow: 0 8rpx 24rpx rgba(76, 175, 80, 0.2);
+}
+
+.tab-icon {
+  font-size: 56rpx;
+}
+
+.tab-text {
+  font-size: 30rpx;
+  color: #666666;
+  font-weight: 500;
+}
+
+.user-type-tab.active .tab-text {
+  color: #2E7D32;
+  font-weight: 600;
+}
+
+.register-form {
+  background: #ffffff;
+  margin: 0 32rpx;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.08);
+}
+
+.form-item {
+  margin-bottom: 28rpx;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #F5F5F5;
+  border-radius: 16rpx;
+  padding: 0 24rpx;
+  height: 96rpx;
+}
+
+.input-icon {
+  font-size: 36rpx;
+  margin-right: 16rpx;
+}
+
+.input-field {
+  flex: 1;
+  height: 100%;
+  font-size: 32rpx;
+  color: #333333;
+  background: transparent;
+}
+
+.role-section {
+  margin-bottom: 28rpx;
+}
+
+.role-title {
+  font-size: 28rpx;
+  color: #666666;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.role-options {
+  display: flex;
+  gap: 24rpx;
+}
+
+.role-option {
+  flex: 1;
+  background: #F5F5F5;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #666666;
+  border: 2rpx solid transparent;
+}
+
+.role-option.selected {
+  background: #E8F5E9;
+  border-color: #2E7D32;
+  color: #2E7D32;
+}
+
+.agree-section {
+  margin-bottom: 32rpx;
+}
+
+.agree-checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 26rpx;
+}
+
+.checkbox {
+  width: 36rpx;
+  height: 36rpx;
+  border: 2rpx solid #CCCCCC;
+  border-radius: 8rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12rpx;
+  font-size: 24rpx;
+  color: #ffffff;
+}
+
+.checkbox.checked {
+  background: #2E7D32;
+  border-color: #2E7D32;
+}
+
+.agree-text {
+  color: #666666;
+}
+
+.agree-link {
+  color: #2E7D32;
+}
+
+.register-btn {
+  background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+  border-radius: 16rpx;
+  height: 96rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 24rpx rgba(46, 125, 50, 0.3);
+}
+
+.register-btn text {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.register-btn:active {
+  transform: scale(0.98);
+}
+
+.login-link {
+  text-align: center;
+  font-size: 28rpx;
+  color: #2E7D32;
+}
